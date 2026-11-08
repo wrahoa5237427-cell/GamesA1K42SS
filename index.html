@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Minigame · Sinh học 10</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}[hidden]{display:none!important}
+:root{--line:rgba(255,215,120,.4)}
+body{min-height:100vh;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fff;background:radial-gradient(ellipse at 50% -10%,#c2214a,transparent 55%),radial-gradient(ellipse at 85% 105%,#5a1a7a,transparent 60%),#14051a;background-attachment:fixed}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(2px 2px at 12% 22%,#fff9,transparent),radial-gradient(2px 2px at 78% 14%,#fff9,transparent),radial-gradient(3px 3px at 45% 70%,#ffd98a88,transparent),radial-gradient(2px 2px at 90% 60%,#fff8,transparent),radial-gradient(2px 2px at 25% 88%,#fff8,transparent);animation:tw 4s infinite alternate}
+@keyframes tw{to{opacity:.35}}
+#app{position:relative;max-width:1000px;margin:auto;padding:22px 18px 40px}
+.gold{background:linear-gradient(#fff6cf,#f0bd45 55%,#a06c08);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+h1{font-size:clamp(34px,7vw,64px);letter-spacing:2px;filter:drop-shadow(0 4px 14px #0008)}
+.hero{text-align:center;padding:26px 0 18px}.crest{font-size:54px}.sub{opacity:.85;margin-top:6px;font-size:18px}
+.rounds{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:22px 0}
+.rc{--c:#fc3;background:rgba(255,255,255,.07);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:18px;color:#fff;padding:22px 18px;display:flex;flex-direction:column;gap:6px;text-align:left;cursor:pointer;font:inherit;backdrop-filter:blur(6px);transition:.2s}
+.rc:hover{transform:translateY(-5px);box-shadow:0 12px 30px #0006,0 0 24px var(--c)}
+.rc small{color:var(--c);font-weight:800;letter-spacing:2px}.rc b{font-size:28px;font-weight:900}.rc span{opacity:.8;font-size:14px}.rc em{font-style:normal;color:var(--c);font-weight:700}
+.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.btn{font:inherit;font-weight:800;border:0;border-radius:14px;padding:13px 22px;cursor:pointer;color:#3a1a00;background:linear-gradient(#ffe590,#e3a82c);box-shadow:0 4px 0 #8a5a00,0 8px 18px #0005;transition:.12s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a5a00}.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid var(--line);box-shadow:none}
+.btn.sm{padding:8px 14px;font-size:14px}.btn.ok{background:#2ecc71;color:#032;box-shadow:0 4px 0 #1a8a4a}.btn.no{background:#ff5a6a;color:#300;box-shadow:0 4px 0 #a82a3a}.btn.half{background:#7fd3ff;color:#012;box-shadow:0 4px 0 #2a7aa8}
+.hint{text-align:center;opacity:.65;font-size:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.rn{font-size:clamp(22px,4vw,34px)}.cnt{opacity:.85;font-weight:700}
+.bar{height:12px;border-radius:9px;background:#fff2;margin:14px 0;overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#f0bd45,#fff1b0);transition:width .1s linear}.bar i.low{background:#ff4d5e;animation:pl .5s infinite alternate}
+@keyframes pl{to{opacity:.5}}
+.card{background:rgba(20,5,30,.55);border:1.5px solid var(--line);border-radius:22px;padding:26px;backdrop-filter:blur(8px);box-shadow:0 14px 40px #0006}
+.meta{display:flex;justify-content:space-between;margin-bottom:14px}
+.pill{background:#f0bd4533;border:1px solid var(--line);border-radius:99px;padding:4px 14px;font-weight:800;color:#ffe08a}
+.card h2{font-size:clamp(20px,3.4vw,30px);line-height:1.4;font-weight:800;margin-bottom:18px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{font:inherit;font-size:clamp(16px,2.4vw,21px);font-weight:600;color:#fff;text-align:left;display:flex;align-items:center;gap:12px;padding:15px 16px;border-radius:14px;cursor:pointer;background:rgba(255,255,255,.08);border:1.5px solid var(--line);transition:.15s}
+.opt:hover{background:#f0bd4533;transform:scale(1.015)}.opt b{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#f0bd45;color:#3a1a00}
+.opt.ok{background:#1f9d57;border-color:#7dffb0;animation:pop .5s}.opt.no{background:#b3283a;border-color:#ff8f9c;animation:sk .4s}.opt.dim{opacity:.4}
+@keyframes pop{50%{transform:scale(1.04)}}@keyframes sk{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.opts.tf .opt{justify-content:center;font-size:24px;font-weight:900}
+.ans{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)}
+.big{font-size:32px}.key ul{padding-left:22px;display:grid;gap:8px;font-size:19px;line-height:1.45}.key li::marker{color:#f0bd45}
+.ex{margin-top:12px;background:#ffffff14;border-radius:12px;padding:12px 14px}.res{margin-top:14px;font-size:20px;font-weight:800;color:#ffe08a}.mk{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.who{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:16px 0;padding:12px 16px;border-radius:14px;background:#ffffff12;border:1px solid var(--line);font-size:18px}
+.ctl{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.mo{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:16px;z-index:9;backdrop-filter:blur(4px)}
+.mb{width:min(520px,100%);max-height:92vh;overflow:auto;background:linear-gradient(#3a0f45,#1c0626);border:1.5px solid var(--line);border-radius:22px;padding:26px;text-align:center;display:grid;gap:12px;box-shadow:0 20px 60px #000a}
+.mb h3{font-size:28px}.mb label{text-align:left;font-weight:700;font-size:14px;opacity:.85}.mb textarea{width:100%;border-radius:12px;padding:10px;font:inherit;font-size:14px;background:#0006;color:#fff;border:1px solid var(--line)}
+#sn{font-size:clamp(34px,9vw,58px);min-height:76px;display:grid;place-items:center;line-height:1.1}#sn.win{animation:pop .6s;filter:drop-shadow(0 0 18px #f0bd45)}
+.rk{display:grid;grid-template-columns:40px 1fr auto;text-align:left;padding:9px 12px;border-radius:10px;background:#ffffff12;align-items:center}.rk em{font-style:normal;font-weight:900;color:#ffe08a}
+@media(max-width:600px){.opts{grid-template-columns:1fr}.who{flex-direction:column}}
+#app{max-width:1180px}
+.card h2{font-size:clamp(22px,3.3vw,38px)}
+.opt{font-size:clamp(17px,2.3vw,26px);cursor:default}.opt:hover{transform:none;background:rgba(255,255,255,.08)}.opt.ok:hover{background:#1f9d57}
+.opts.one{grid-template-columns:1fr}
+.tag{font-weight:800;letter-spacing:2px;font-size:14px;color:#7fe0ff}
+.dots{display:flex;gap:7px;justify-content:center;margin:12px 0 0}.dots i{width:30px;height:9px;border-radius:5px;background:#fff3;cursor:pointer}.dots i.dn{background:#f0bd4577}.dots i.on{background:#ffe08a;box-shadow:0 0 12px #f0bd45}
+.imgs{display:flex;gap:14px;margin-bottom:16px}
+.img{flex:1;min-height:140px;border:2px dashed var(--line);border-radius:16px;display:grid;place-items:center;cursor:pointer;overflow:hidden;background:#0004;text-align:center;padding:12px}
+.img img{max-width:100%;max-height:38vh;border-radius:10px}.img small{display:block;opacity:.7;margin-top:6px;font-size:13px}.img:has(img){border-style:solid;padding:6px}
+.tfs{display:grid;gap:10px}
+.tfr{display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:center;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.08);border:1.5px solid var(--line);font-size:clamp(17px,2.3vw,24px);font-weight:600;text-align:left}
+.tfr b{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#f0bd45;color:#3a1a00}
+.tfr i{font-style:normal;font-weight:900;min-width:76px;text-align:center}.tfr.ok{background:#1f9d57;border-color:#7dffb0}.tfr.no{background:#b3283a;border-color:#ff8f9c}
+.seq{margin-top:16px;display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;font-size:26px;font-weight:900}.seq b{background:#f0bd45;color:#3a1a00;border-radius:12px;padding:6px 14px}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:14px}.mt>div{display:grid;gap:10px;align-content:start}
+.ansbox{font-size:clamp(26px,4vw,44px);text-align:center;padding:8px;line-height:1.3}
+.ans .key{margin-top:4px}
+.btn.big{font-size:24px;padding:18px 46px}
+@media(max-width:700px){.mt{grid-template-columns:1fr}.imgs{flex-direction:column}}
+body{background:radial-gradient(ellipse at 50% -10%,#1a7fe0,transparent 55%),radial-gradient(ellipse at 85% 105%,#0a4aa0,transparent 60%),#031230;background-attachment:fixed}
+.logo{height:76px;background:#fff;border-radius:18px;padding:6px;box-shadow:0 4px 16px #0006}.logo.sm{height:46px;border-radius:12px;padding:3px}
+.lf{display:flex;gap:12px;align-items:center}.hero .logo{margin-bottom:10px}
+.rules{max-width:760px;margin:26px auto 0;padding:20px 26px;border:1.5px solid var(--line);border-radius:18px;background:rgba(3,18,48,.55);text-align:left;font-size:clamp(16px,2vw,21px);line-height:1.65}
+.rules h3{margin-bottom:6px;font-size:24px}.rules li{margin-left:20px}
+.img span{display:none}.img.miss span{display:block}.img.miss img{display:none}
+.img.ra{margin:16px auto 0;max-width:620px;border-style:solid}.img.ra.miss{display:none}
+#app.pl{display:flex;flex-direction:column;min-height:100vh}
+.stage{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:3vh 0 20px}
+.frame{position:relative;width:min(1100px,100%)}.frame.sm{width:min(960px,100%)}
+.fq,.fb{position:relative;background:linear-gradient(rgba(7,38,92,.95),rgba(3,22,52,.95));border:2px solid rgba(190,215,245,.8);box-shadow:0 10px 30px #0008}
+.fq{border-radius:4px 26px 4px 4px;padding:28px 30px 24px}
+.fq h2{font-size:clamp(22px,3vw,36px);line-height:1.45;text-align:center;font-weight:800;margin:0}
+.fb{margin-top:12px;border-radius:4px 4px 4px 26px;padding:22px}
+.fb .imgs{margin-bottom:16px}.fb .imgs:last-child{margin-bottom:0}
+.fb>.ans:first-child{margin-top:0;padding-top:0;border:0}
+.pts{position:absolute;right:26px;top:-17px;z-index:3;background:linear-gradient(#ffe590,#e3a82c);color:#3a1a00;font-weight:900;padding:5px 18px;border-radius:12px;box-shadow:0 3px 0 #8a5a00,0 6px 14px #0006}
+.tb{height:12px;margin-top:14px;border-radius:8px;background:#ffffff1f;border:1px solid #9fb8d866;overflow:hidden}
+.tb i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#9fd0ff,#fff);transition:width .1s linear}.tb i.low{background:#ff4d5e;animation:pl .5s infinite alternate}
+.pl .ctl{padding-bottom:24px;margin-top:8px}
+.enter .frame{transform-origin:0 0;animation:grow .85s cubic-bezier(.2,.85,.25,1) both}
+.enter .it,.enter .imgs{animation:fin .5s both;animation-delay:calc(.95s + var(--i,0)*.1s)}
+.enter .tb{animation:fin .4s 1.2s both}.enter .fq h2,.enter .pts{animation:fin .5s 1.4s both}
+@keyframes grow{0%{transform:scale(.04);opacity:0}12%{opacity:1}100%{transform:none}}
+@keyframes fin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes draw{from{width:0;opacity:1}to{width:100%;opacity:1}}
+.stage.s{padding-top:12vh}.fb .imgs .img img{max-height:22vh}.img.ra img{max-height:24vh}
+.opt{position:relative}
+.gimg{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.gi{grid-column:span 2;position:relative;border-radius:16px;border:3px solid var(--line);background:#fff;overflow:hidden;transition:.3s}
+.gi:nth-child(4){grid-column:2/span 2}.gi:nth-child(5){grid-column:4/span 2}
+.gi .img,.gi .img:has(img){display:block;position:relative;border:0;border-radius:0;background:#fff;min-height:0;padding:0;height:clamp(120px,24vh,250px);color:#123;overflow:hidden}
+.gi .img img{position:absolute;inset:0;width:100%;height:100%;max-height:none;object-fit:contain;border-radius:0}
+.gi .img span{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:8px}.gi .img.miss span{display:grid}
+.gi b{position:absolute;left:8px;top:8px;z-index:2;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#d8283c;color:#fff;font-size:22px;border:2px solid #ffe08a}
+.gi.ok{border-color:#2ecc71;box-shadow:0 0 0 4px #2ecc7199,0 0 34px #2ecc71}.gi.dim{opacity:.3;filter:grayscale(.7)}
+.mg{display:grid;grid-template-columns:1fr 96px 1fr;gap:12px 0;align-items:stretch}
+.lk{display:flex;align-items:center;padding:0 6px}
+.lk i{display:block;position:relative;height:4px;width:0;opacity:0;border-radius:3px;background:linear-gradient(90deg,#ffe08a,#f0bd45)}
+.lk i:after{content:"";position:absolute;right:-4px;top:-6px;width:16px;height:16px;border-radius:50%;background:#ffe08a;box-shadow:0 0 12px #f0bd45}
+.mg.rv .lk i{animation:draw .6s .95s forwards}
+.ord{gap:24px}
+.ord.rv .opt:not(:last-child):after{content:"▼";position:absolute;left:50%;bottom:-20px;transform:translateX(-50%);color:#ffe08a;font-size:15px}
+.st{margin-left:auto;font-style:normal;font-weight:800;font-size:15px;background:#f0bd45;color:#3a1a00;border-radius:99px;padding:3px 14px;flex:none}
+@media(max-width:700px){.gimg{grid-template-columns:1fr 1fr}.gi,.gi:nth-child(4),.gi:nth-child(5){grid-column:auto}.mg{grid-template-columns:1fr 40px 1fr}}
+</style></head><body><div id="app"></div><div id="m" class="mo" hidden><div class="mb" id="mb"></div></div>
+<script>
+/* ============ NGÂN HÀNG CÂU HỎI (10 câu) — sửa/thêm theo đúng mẫu ============
+ Chung: q = đề bài · p = điểm (phần quà) · e = giải thích ngắn khi hiện đáp án
+        im:[['images/cau-03','mô tả ảnh cần có']] = ảnh trong đề (đặt file images/cau-03.jpg; đuôi png/jpeg/webp cũng được)
+        ra:'images/cau-08-dapan' = ảnh chỉ hiện cùng đáp án
+ mcq   : o:[4 phương án], a:vị trí đúng (đếm từ 0)
+ multi : o:[các phương án], a:[các vị trí đúng]
+ pics  : oi:[đường dẫn ảnh các phương án A,B,C… (không ghi đuôi file)], a:[các vị trí đúng]
+ tf    : o:[các ý a,b,c,d], a:[true,false,…]
+ order : o:[các bước hiển thị theo A,B,C…], a:[thứ tự đúng, ví dụ [1,0,2,3] = B→A→C→D]
+ match : l:[cột 1,2,3…], o:[cột A,B,C…], a:[với mỗi ý ở l, vị trí đúng ở o]
+ short : a:'đáp án ngắn' */
+const L='ABCDE',T={mcq:'TRẮC NGHIỆM',multi:'CHỌN NHIỀU ĐÁP ÁN',tf:'ĐÚNG – SAI',order:'SẮP XẾP',match:'GHÉP ĐÔI',short:'TRẢ LỜI NGẮN',pics:'CHỌN NHIỀU HÌNH ẢNH'};
+const BANK=[
+{t:'short',q:'Tế bào thực vật non có nhiều không bào nhỏ. Khi tế bào trưởng thành, các không bào này hợp lại thành cấu trúc nào?',a:'Không bào trung tâm'},
+{t:'mcq',q:'Lysosome KHÔNG thực hiện chức năng nào sau đây?',o:['Phân giải các bào quan đã bị hư hỏng','Hỗ trợ tiêu hóa thức ăn theo con đường thực bào','Phân giải hydrogen peroxide (H₂O₂) sinh ra trong tế bào','Phân giải các tế bào cần được thay thế'],a:2,e:'Phân giải H₂O₂ là chức năng của peroxisome.'},
+{t:'mcq',im:[['images/cau-03','Ảnh cánh hoa có màu sắc rõ nét (hoa tím hoặc đỏ)']],q:'Màu sắc của cánh hoa trong hình giúp thu hút côn trùng đến thụ phấn. Sắc tố tạo nên màu sắc đó được chứa trong bào quan nào?',o:['Lysosome','Không bào','Peroxisome','Ti thể'],a:1},
+{t:'short',q:'Trong các loại tế bào: tế bào cơ, hồng cầu, bạch cầu, tế bào thần kinh, loại tế bào nào có nhiều lysosome nhất?',a:'Bạch cầu',e:'Bạch cầu thực bào nhiều nên cần tiêu hóa nội bào liên tục.'},
+{t:'tf',p:20,q:'Về không bào, mỗi ý sau đúng hay sai?',o:['Không bào chỉ có ở tế bào thực vật.','Quả chanh có vị chua vì dịch không bào chứa citric acid.','Không bào thường bắt nguồn từ lưới nội chất và bộ máy Golgi.','Không bào co bóp ở trùng giày thực hiện chức năng tiêu hóa thức ăn.'],a:[false,true,true,false],e:'Không bào tiêu hóa thực hiện tiêu hóa thức ăn; không bào co bóp đưa nước thừa ra khỏi tế bào.'},
+{t:'order',p:20,q:'Sắp xếp các giai đoạn sau theo đúng thứ tự, từ khi tạo ra enzyme thủy phân đến khi lysosome phân giải xong:',o:['Golgi đóng gói enzyme thành lysosome','Ribosome tổng hợp enzyme thủy phân','Enzyme phân giải bào quan bị hư hỏng','Giữ lại chất tái sử dụng, đưa chất thải ra ngoài'],a:[1,0,2,3]},
+{t:'match',p:20,q:'Ghép mỗi tình huống với bào quan tương ứng:',l:['Tế bào tiêu hóa vi khuẩn mà nó vừa thực bào','Tế bào gan phân giải H₂O₂ sinh ra trong tế bào','Trùng giày sống trong nước ngọt đưa nước thừa ra khỏi tế bào','Cánh hoa chứa sắc tố thu hút côn trùng'],o:['Không bào co bóp','Lysosome','Không bào chứa sắc tố','Peroxisome'],a:[1,3,0,2]},
+{t:'short',q:'Ở tế bào não, một số enzyme phân giải chất béo bị mất chức năng, làm lipid tích tụ, gây tổn thương não và có thể dẫn đến tử vong. Bào quan nào bị rối loạn chức năng?',a:'Peroxisome',ra:'images/cau-08-dapan'},
+{t:'short',q:'Ở thực vật, loại peroxisome đặc biệt chứa enzyme phân tách acid béo thành acetyl-CoA có tên là gì?',a:'Glioxysome',e:'Acetyl-CoA được đưa đến ti thể để tham gia hô hấp tế bào.'},
+{t:'pics',p:20,q:'Những hình nào dưới đây thể hiện bào quan được bao bọc bởi màng đơn?',oi:['images/cau-10-a','images/cau-10-b','images/cau-10-c','images/cau-10-d','images/cau-10-e'],a:[1,2,4],e:'Lysosome (B), không bào (C) và peroxisome (E) có màng đơn. Ti thể (A) và lục lạp (D) có màng kép.'}
+];
+const $=s=>document.querySelector(s),app=$('#app'),LOGO='images/logo-thpt-soc-son.png';
+let S={},ac;
+const Q=()=>BANK.map(q=>({p:10,...q}));
+/* Âm thanh: nếu có file trong thư mục audio/ thì dùng file, không có thì dùng âm thanh tự tạo (riêng nhạc nền: không có file thì không phát) */
+const AU={};['nhac-nen','chuyen-cau','dap-an','het-gio'].forEach(n=>{const a=new Audio('audio/'+n+'.mp3');a.preload='auto';a.oncanplaythrough=()=>a.ok=1;AU[n]=a});AU['nhac-nen'].loop=true;
+function tn(f,t,d,ty='sine',v=.05){const o=ac.createOscillator(),g=ac.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+.02)}
+function ctx(){ac=ac||new AudioContext();return ac.currentTime}
+function beep(f,d,ty){try{tn(f,ctx(),d,ty,.07)}catch(e){}}
+const fbQ=()=>{try{const t=ctx();tn(90,t,.4,'sine',.2);[784,988,1175,1568].forEach((f,i)=>tn(f,t+.15+i*.09,.35,'triangle',.07))}catch(e){}},fbA=()=>beep(880,.2),fbT=()=>beep(160,.6,'square');
+function snd(n,fb){const a=AU[n];if(a.ok){a.currentTime=0;a.play().catch(()=>{})}else if(fb)fb()}
+function music(on){const a=AU['nhac-nen'];if(!a.ok)return;on?a.play().catch(()=>{}):a.pause()}
+function pic(p){return`<img src="${p}.jpg" onerror="nx(this,'${p}')">`}
+function nx(e,p){const x=['png','jpeg','webp'],i=+(e.dataset.i||0);e.dataset.i=i+1;if(i<3)e.src=p+'.'+x[i];else e.parentNode.classList.add('miss')}
+function home(){stopT();S.scr='home';app.className='';app.innerHTML=`<div class="hero"><img class="logo" src="${LOGO}" alt="THPT Sóc Sơn"><h1 class="gold">MINIGAME</h1><p class="sub">Sinh học 10 · Lysosome – Không bào – Peroxisome</p></div>
+<div class="rules"><h3 class="gold">THỂ LỆ</h3><ul><li>Học sinh giơ tay trước được gọi trả lời trước. Mỗi câu có 20 giây.</li><li>Trả lời sai: không bị trừ điểm, không bị phạt.</li><li>Trả lời đúng: nhận phần quà tương ứng với số điểm của câu hỏi (10 điểm hoặc 20 điểm).</li></ul></div>
+<div class="row" style="margin:30px 0"><button class="btn big" onclick="start()">▶ BẮT ĐẦU</button></div>`}
+function start(){S={scr:'play',i:0,qs:Q()};load()}
+function load(){stopT();try{AU['nhac-nen'].currentTime=0}catch(e){}S.rev=false;S.max=S.t=20;S.enter=true;play();snd('chuyen-cau',fbQ)}
+function imgs(q){return q.im?`<div class="imgs">${q.im.map(([p,n])=>`<div class="img">${pic(p)}<span>🖼️ Ảnh tạm thời<small>${n}<br>Thêm file: ${p}.jpg</small></span></div>`).join('')}</div>`:''}
+function body(q){const rv=S.rev,A=[].concat(q.a),n=(q.o||[]).map((_,i)=>i);
+if(q.t=='mcq'||q.t=='multi')return`<div class="opts">${q.o.map((x,i)=>`<div class="opt it ${rv?(A.includes(i)?'ok':'dim'):''}" style="--i:${i}"><b>${L[i]}</b>${x}</div>`).join('')}</div>`;
+if(q.t=='pics')return`<div class="gimg">${q.oi.map((p,i)=>`<div class="gi it ${rv?(A.includes(i)?'ok':'dim'):''}" style="--i:${i}"><b>${L[i]}</b><div class="img">${pic(p)}<span>🖼️ ${p}</span></div></div>`).join('')}</div>`;
+if(q.t=='tf')return`<div class="tfs">${q.o.map((x,i)=>`<div class="tfr it ${rv?(q.a[i]?'ok':'no'):''}" style="--i:${i}"><b>${'abcd'[i]}</b><span>${x}</span><i>${rv?(q.a[i]?'ĐÚNG':'SAI'):'?'}</i></div>`).join('')}</div>`;
+if(q.t=='order'){const od=rv?q.a:n;return`<div class="opts one ord${rv?' rv':''}">${od.map((j,r)=>`<div class="opt it" data-k="o${j}" style="--i:${r}"><b>${L[j]}</b>${q.o[j]}${rv?`<em class="st">Bước ${r+1}</em>`:''}</div>`).join('')}</div>`}
+if(q.t=='match'){const od=rv?q.a:n;return`<div class="mg${rv?' rv':''}">${q.l.map((x,r)=>`<div class="opt it" style="--i:${r}"><b>${r+1}</b>${x}</div><div class="lk"><i></i></div><div class="opt it" data-k="m${od[r]}" style="--i:${r}"><b>${L[od[r]]}</b>${q.o[od[r]]}</div>`).join('')}</div>`}
+return''}
+function ans(q){let h='';if(q.t=='short')h+=`<div class="ansbox gold">${q.a}</div>`;if(q.e)h+=`<p class="ex">Giải thích: ${q.e}</p>`;if(q.ra)h+=`<div class="img ra">${pic(q.ra)}<span></span></div>`;return h?`<div class="ans">${h}</div>`:''}
+function play(){const q=S.qs[S.i],fb=imgs(q)+body(q)+(S.rev?ans(q):'');app.className='pl'+(S.enter?' enter':'');S.enter=false;
+app.innerHTML=`<div class="top"><div class="lf"><img class="logo sm" src="${LOGO}" alt=""><button class="btn ghost sm" onclick="home()">← Menu</button></div><div class="tag">${T[q.t]}</div><div><button class="btn ghost sm" onclick="fs()">⛶</button> <span class="cnt">Câu ${S.i+1}/${S.qs.length}</span></div></div>
+<div class="dots">${S.qs.map((_,i)=>`<i class="${i==S.i?'on':i<S.i?'dn':''}" onclick="jump(${i})"></i>`).join('')}</div>
+<div class="stage${q.t=='short'?' s':''}"><div class="frame${q.t=='short'?' sm':''}"><div class="fq"><span class="pts">${q.p} điểm</span><h2>${q.q}</h2></div>${fb?`<div class="fb">${fb}</div>`:''}<div class="tb"><i id="tb"></i></div></div></div>
+<div class="ctl"><button class="btn ghost" onclick="go(-1)">←</button><button class="btn" id="tg" onclick="tog()"></button><button class="btn ghost" onclick="rev()">👁 Đáp án</button><button class="btn ghost" onclick="go(1)">→</button></div>`;upd()}
+function rev(){if(S.rev)return;const old={};document.querySelectorAll('[data-k]').forEach(e=>old[e.dataset.k]=e.getBoundingClientRect());S.rev=true;stopT();snd('dap-an',fbA);play();
+document.querySelectorAll('[data-k]').forEach(e=>{const o=old[e.dataset.k];if(!o)return;const r=e.getBoundingClientRect(),dx=o.left-r.left,dy=o.top-r.top;if(!dx&&!dy)return;e.style.transition='none';e.style.transform=`translate(${dx}px,${dy}px)`;e.offsetWidth;e.style.transition='transform .9s cubic-bezier(.3,1,.4,1)';e.style.transform='none'})}
+function go(d){const n=S.i+d;if(n<0)return;if(n>=S.qs.length)return end();S.i=n;load()}
+function jump(i){S.i=i;load()}
+function end(){stopT();S.scr='end';app.className='';app.innerHTML=`<div class="hero" style="padding-top:60px"><img class="logo" src="${LOGO}" alt=""><h1 class="gold">KẾT THÚC</h1><p class="sub">Cảm ơn các bạn đã tham gia!</p></div><div class="row" style="margin-top:30px"><button class="btn ghost" onclick="home()">← Về menu</button></div>`;[659,784,988,1318].forEach((f,i)=>setTimeout(()=>beep(f,.25),i*160))}
+function fs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}
+function tog(){if(S.rev)return;S.run?stopT():startT()}
+function startT(){clearInterval(S.iv);if(S.t<=0){S.t=S.max;try{AU['nhac-nen'].currentTime=0}catch(e){}}S.run=true;music(1);S.iv=setInterval(()=>{S.t=Math.max(0,S.t-.1);if(S.t<=0){stopT();snd('het-gio',fbT)}else if(S.t<=5&&Math.abs(S.t-Math.round(S.t))<.05)beep(720,.05);upd()},100);upd()}
+function stopT(){clearInterval(S.iv);S.run=false;music(0);upd()}
+function upd(){const b=$('#tb'),g=$('#tg');if(!b||S.scr!='play')return;b.style.width=S.t/S.max*100+'%';b.classList.toggle('low',S.t<=5&&S.t>0);g.textContent=S.run?'⏸ Tạm dừng':(S.t<S.max&&S.t>0?'▶ Tiếp tục':'▶ Bắt đầu')}
+addEventListener('keydown',e=>{if(S.scr!='play')return;if(e.key=='ArrowRight')go(1);else if(e.key=='ArrowLeft')go(-1);else if(e.key=='Enter')rev();else if(e.key==' '){e.preventDefault();tog()}else if(e.key=='f'||e.key=='F')fs()});
+home();
+
+</script></body></html>

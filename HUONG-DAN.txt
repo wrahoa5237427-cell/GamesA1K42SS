@@ -1,0 +1,21 @@
+MINIGAME SINH HỌC 10 - HƯỚNG DẪN
+
+1) Mở index.html bằng trình duyệt (hoặc đưa cả thư mục lên hosting để deploy).
+
+2) Ảnh (thư mục images/): đặt đúng tên, đuôi .jpg / .png / .jpeg / .webp đều được.
+   - cau-03 : ảnh hoa dâm bụt (câu 3)            - đã có
+   - cau-08-dapan : ảnh peroxisome, hiện khi bấm Đáp án câu 8 - đã có
+   - cau-10-a ... cau-10-e : 5 hình đáp án câu 10 (A ti thể, B lysosome, C không bào, D lục lạp, E peroxisome) - đã có
+   - logo-thpt-soc-son : logo trường - đã có
+   Gắn ảnh vào câu khác: mở index.html bằng Notepad, tìm câu đó trong BANK, thêm  im:[['images/ten-anh','mô tả']]
+   (mẫu đầy đủ các dạng câu hỏi nằm ngay đầu phần code).
+
+3) Âm thanh (thư mục audio/): bỏ file mp3 vào đúng tên dưới đây, game tự dùng.
+   - nhac-nen.mp3    : nhạc nền, chạy khi bấm "Bắt đầu", dừng khi tạm dừng/hết giờ/hiện đáp án. Mỗi câu phát lại từ đầu.
+                       Nên chọn bản dài từ 20 giây trở lên (không có lời, nhịp đều, căng dần).
+   - chuyen-cau.mp3  : âm thanh lúc khung câu hỏi hiện ra (ngắn, khoảng 1-2 giây)
+   - dap-an.mp3      : âm thanh khi hiện đáp án (ngắn)
+   - het-gio.mp3     : âm thanh hết 20 giây (ngắn)
+   Không có file nào thì: nhạc nền không phát; 3 âm thanh còn lại dùng âm tự tạo.
+
+4) Phím tắt: Space = bật/tắt đồng hồ + nhạc | Enter = hiện đáp án | <- -> = chuyển câu | F = toàn màn hình.
