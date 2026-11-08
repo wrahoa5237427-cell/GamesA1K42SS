@@ -18,4 +18,9 @@ MINIGAME SINH HỌC 10 - HƯỚNG DẪN
    - het-gio.mp3     : âm thanh hết 20 giây (ngắn)
    Không có file nào thì: nhạc nền không phát; 3 âm thanh còn lại dùng âm tự tạo.
 
-4) Phím tắt: Space = bật/tắt đồng hồ + nhạc | Enter = hiện đáp án | <- -> = chuyển câu | F = toàn màn hình.
+4) Cách chơi: học sinh lên chọn bộ 10 điểm hoặc 20 điểm -> game bốc ngẫu nhiên 1 câu trong bộ đó (số trên khung giảm ngay).
+   Nút "Đáp án" chỉ bật sau khi đã bấm "Bắt đầu" và đồng hồ đã chạy hết hoặc được tạm dừng.
+   Bấm "Chọn lại" (trước khi bấm Bắt đầu) sẽ trả câu về bộ. Hết câu ở cả hai bộ thì hiện màn KẾT THÚC.
+   Câu thuộc bộ nào do p:10 hoặc p:20 trong BANK quyết định.
+
+5) Phím tắt: Space = bật/tắt đồng hồ + nhạc | Enter = hiện đáp án, bấm lần nữa = chọn câu tiếp | Esc = chọn lại (trước khi bắt đầu) | F = toàn màn hình.
