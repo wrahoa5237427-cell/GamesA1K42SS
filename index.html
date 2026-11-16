@@ -137,14 +137,14 @@ body{background:radial-gradient(ellipse at 50% -10%,#2ecb6a,transparent 55%),rad
  short : a:'đáp án ngắn' */
 const L='ABCDE',T={mcq:'TRẮC NGHIỆM',multi:'CHỌN NHIỀU ĐÁP ÁN',tf:'ĐÚNG – SAI',order:'SẮP XẾP',match:'GHÉP ĐÔI',short:'TRẢ LỜI NGẮN',pics:'CHỌN NHIỀU HÌNH ẢNH'};
 const BANK=[
-{t:'short',q:'Tế bào thực vật non có nhiều không bào nhỏ. Khi tế bào trưởng thành, các không bào này hợp lại thành cấu trúc nào?',a:'Không bào trung tâm'},
 {t:'mcq',q:'Lysosome KHÔNG thực hiện chức năng nào sau đây?',o:['Phân giải các bào quan đã bị hư hỏng','Hỗ trợ tiêu hóa thức ăn theo con đường thực bào','Phân giải hydrogen peroxide (H₂O₂) sinh ra trong tế bào','Phân giải các tế bào cần được thay thế'],a:2,e:'Phân giải H₂O₂ là chức năng của peroxisome.'},
 {t:'mcq',im:[['images/cau-03','Ảnh cánh hoa có màu sắc rõ nét (hoa tím hoặc đỏ)']],q:'Màu sắc của cánh hoa trong hình giúp thu hút côn trùng đến thụ phấn. Sắc tố tạo nên màu sắc đó được chứa trong bào quan nào?',o:['Lysosome','Không bào','Peroxisome','Ti thể'],a:1},
 {t:'short',q:'Trong các loại tế bào: tế bào cơ, hồng cầu, bạch cầu, tế bào thần kinh, loại tế bào nào có nhiều lysosome nhất?',a:'Bạch cầu',e:'Bạch cầu thực bào nhiều nên cần tiêu hóa nội bào liên tục.'},
 {t:'tf',p:20,q:'Về không bào, mỗi ý sau đúng hay sai?',o:['Không bào chỉ có ở tế bào thực vật.','Quả chanh có vị chua vì dịch không bào chứa citric acid.','Không bào thường bắt nguồn từ lưới nội chất và bộ máy Golgi.','Không bào co bóp ở trùng giày thực hiện chức năng tiêu hóa thức ăn.'],a:[false,true,true,false],e:'Không bào tiêu hóa thực hiện tiêu hóa thức ăn; không bào co bóp đưa nước thừa ra khỏi tế bào.'},
 {t:'order',p:20,q:'Sắp xếp các giai đoạn sau theo đúng thứ tự, từ khi tạo ra enzyme thủy phân đến khi lysosome phân giải xong:',o:['Golgi đóng gói enzyme thành lysosome','Ribosome tổng hợp enzyme thủy phân','Enzyme phân giải bào quan bị hư hỏng','Giữ lại chất tái sử dụng, đưa chất thải ra ngoài'],a:[1,0,2,3]},
+{t:'match',p:20,q:'Ghép mỗi tình huống với bào quan tương ứng:',l:['Tế bào tiêu hóa vi khuẩn mà nó vừa thực bào','Tế bào gan phân giải H₂O₂ sinh ra trong tế bào','Trùng giày sống trong nước ngọt đưa nước thừa ra khỏi tế bào','Cánh hoa chứa sắc tố thu hút côn trùng'],o:['Không bào co bóp','Lysosome','Không bào chứa sắc tố','Peroxisome'],a:[1,3,0,2]},
 {t:'short',q:'Ở tế bào não, một số enzyme phân giải chất béo bị mất chức năng, làm lipid tích tụ, gây tổn thương não và có thể dẫn đến tử vong. Bào quan nào bị rối loạn chức năng?',a:'Peroxisome',ra:'images/cau-08-dapan'},
-{t:'pics',p:20,q:'Những hình nào dưới đây thể hiện bào quan được bao bọc bởi màng đơn?',oi:['images/cau-10-a','images/cau-10-b','images/cau-10-c','images/cau-10-d','images/cau-10-e'],a:[1,2,4],e:'Lysosome (B), không bào (C) và peroxisome (E) có màng đơn. Ti thể (A) và lục lạp (D) có màng kép.'}
+{t:'short',q:'Ở thực vật, loại peroxisome đặc biệt chứa enzyme phân tách acid béo thành acetyl-CoA có tên là gì?',a:'Glioxysome',e:'Acetyl-CoA được đưa đến ti thể để tham gia hô hấp tế bào.'},
 ];
 const $=s=>document.querySelector(s),app=$('#app'),LOGO='images/logo-thpt-soc-son.png';
 let S={},ac;
