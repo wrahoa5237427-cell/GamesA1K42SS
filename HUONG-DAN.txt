@@ -24,3 +24,9 @@ MINIGAME SINH HỌC 10 - HƯỚNG DẪN
    Câu thuộc bộ nào do p:10 hoặc p:20 trong BANK quyết định.
 
 5) Phím tắt: Space = bật/tắt đồng hồ + nhạc | Enter = hiện đáp án, bấm lần nữa = chọn câu tiếp | Esc = chọn lại (trước khi bắt đầu) | F = toàn màn hình.
+
+6) KHÓA THEO GIỜ: web tự khóa đến 12:00 ngày 17/11/2026 (giờ Việt Nam), hiện đồng hồ đếm ngược, đúng giờ tự mở (không cần tải lại trang).
+   Đổi giờ mở: mở index.html bằng Notepad, tìm UNLOCK_AT, sửa chuỗi '2026-11-17T12:00:00+07:00' (giữ nguyên định dạng, +07:00 là giờ VN).
+   Cũng sửa chữ "12:00 · Thứ Ba, 17/11/2026" trong hàm lockScr cho khớp.
+   Muốn thử game trước giờ: tạm sửa UNLOCK_AT về một thời điểm đã qua (vd '2020-01-01T00:00:00+07:00'), nhớ trả lại khi dùng thật.
+   Bộ câu hỏi trong index.html đã được mã hóa (không đọc được khi xem mã nguồn). File cau-hoi-goc.js là bản đọc được: KHÔNG đưa file này lên hosting.

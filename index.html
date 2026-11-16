@@ -122,9 +122,28 @@ body{background:radial-gradient(ellipse at 50% -10%,#2ecb6a,transparent 55%),rad
 .ord.rv .opt:not(:last-child):after{content:"▼";position:absolute;left:50%;bottom:-20px;transform:translateX(-50%);color:#ffe08a;font-size:15px}
 .st{margin-left:auto;font-style:normal;font-weight:800;font-size:15px;background:#f0bd45;color:#3a1a00;border-radius:99px;padding:3px 14px;flex:none}
 @media(max-width:700px){.gimg{grid-template-columns:1fr 1fr}.gi,.gi:nth-child(4),.gi:nth-child(5){grid-column:auto}.mg{grid-template-columns:1fr 40px 1fr}}
+
+.lockpg{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
+.lockw{width:min(760px,100%);text-align:center;display:grid;gap:104px;justify-items:center}
+.lockc{position:relative;width:100%;padding:44px 28px 34px;border:2px solid rgba(200,245,215,.8);border-radius:4px 34px 4px 34px;background:linear-gradient(rgba(8,72,42,.93),rgba(3,40,24,.95));box-shadow:0 14px 44px #000a,0 0 60px #2ecb6a33;animation:fin .7s both}
+.lockc:before,.lockc:after{content:"";position:absolute;width:46px;height:46px;border:3px solid #f0bd45}
+.lockc:before{left:-3px;top:-3px;border-right:0;border-bottom:0;border-radius:4px 0 0 0}.lockc:after{right:-3px;bottom:-3px;border-left:0;border-top:0;border-radius:0 0 34px 0}
+.lockico{width:112px;height:112px;margin:-92px auto 14px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 35% 30%,#1c8a52,#05301b);border:3px solid #f0bd45;box-shadow:0 8px 26px #0009,0 0 0 8px #2ecb6a22,0 0 40px #f0bd4577;animation:flt 3.2s ease-in-out infinite}
+.lockico svg{width:62px;height:62px;filter:drop-shadow(0 3px 6px #0008)}.lockico .sh{transform-origin:50% 100%;animation:wig 3.2s ease-in-out infinite}
+@keyframes flt{50%{transform:translateY(-8px)}}@keyframes wig{0%,70%,100%{transform:rotate(0)}76%{transform:rotate(-7deg)}82%{transform:rotate(6deg)}88%{transform:rotate(-4deg)}94%{transform:rotate(2deg)}}
+.lockt{letter-spacing:4px;font-weight:800;font-size:14px;color:#a8ffc8}
+.lockc h1{font-size:clamp(30px,6.4vw,58px);margin:8px 0 10px}
+.locks{font-size:clamp(16px,2.2vw,21px);line-height:1.6;opacity:.92}.locks b{color:#ffe08a}
+.lockcd{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,2vw,18px);margin:26px 0 8px}
+.lockcd div{padding:14px 4px 10px;border-radius:16px;background:rgba(255,255,255,.07);border:1.5px solid var(--line)}
+.lockcd b{display:block;font-size:clamp(34px,8vw,68px);line-height:1;font-variant-numeric:tabular-nums;background:linear-gradient(#fff6cf,#f0bd45 55%,#a06c08);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+.lockcd span{display:block;margin-top:8px;font-size:clamp(11px,1.6vw,14px);font-weight:800;letter-spacing:3px;color:#a8ffc8}
+.lockn{margin-top:18px;font-size:15px;opacity:.7}
+.lockc.go{animation:pop .6s}.lockc.go h1{filter:drop-shadow(0 0 18px #f0bd45)}
 </style></head><body><div id="app"></div><div id="m" class="mo" hidden><div class="mb" id="mb"></div></div>
 <script>
-/* ============ NGÂN HÀNG CÂU HỎI (8 câu: 5 câu 10 điểm + 3 câu 20 điểm) — sửa/thêm theo đúng mẫu ============
+/* ============ NGÂN HÀNG CÂU HỎI (8 câu: 5 câu 10 điểm + 3 câu 20 điểm) — ĐÃ MÃ HÓA để không lộ đề khi xem mã nguồn ============
+ Muốn sửa câu hỏi: sửa file cau-hoi-goc.js rồi nhờ mã hóa lại. Mẫu các dạng câu hỏi:
  Chung: q = đề bài · p = điểm (10 hoặc 20: quyết định câu thuộc bộ nào, mặc định 10) · e = giải thích ngắn khi hiện đáp án
         im:[['images/cau-03','mô tả ảnh cần có']] = ảnh trong đề (đặt file images/cau-03.jpg; đuôi png/jpeg/webp cũng được)
         ra:'images/cau-08-dapan' = ảnh chỉ hiện cùng đáp án
@@ -136,19 +155,13 @@ body{background:radial-gradient(ellipse at 50% -10%,#2ecb6a,transparent 55%),rad
  match : l:[cột 1,2,3…], o:[cột A,B,C…], a:[với mỗi ý ở l, vị trí đúng ở o]
  short : a:'đáp án ngắn' */
 const L='ABCDE',T={mcq:'TRẮC NGHIỆM',multi:'CHỌN NHIỀU ĐÁP ÁN',tf:'ĐÚNG – SAI',order:'SẮP XẾP',match:'GHÉP ĐÔI',short:'TRẢ LỜI NGẮN',pics:'CHỌN NHIỀU HÌNH ẢNH'};
-const BANK=[
-{t:'mcq',q:'Lysosome KHÔNG thực hiện chức năng nào sau đây?',o:['Phân giải các bào quan đã bị hư hỏng','Hỗ trợ tiêu hóa thức ăn theo con đường thực bào','Phân giải hydrogen peroxide (H₂O₂) sinh ra trong tế bào','Phân giải các tế bào cần được thay thế'],a:2,e:'Phân giải H₂O₂ là chức năng của peroxisome.'},
-{t:'mcq',im:[['images/cau-03','Ảnh cánh hoa có màu sắc rõ nét (hoa tím hoặc đỏ)']],q:'Màu sắc của cánh hoa trong hình giúp thu hút côn trùng đến thụ phấn. Sắc tố tạo nên màu sắc đó được chứa trong bào quan nào?',o:['Lysosome','Không bào','Peroxisome','Ti thể'],a:1},
-{t:'short',q:'Trong các loại tế bào: tế bào cơ, hồng cầu, bạch cầu, tế bào thần kinh, loại tế bào nào có nhiều lysosome nhất?',a:'Bạch cầu',e:'Bạch cầu thực bào nhiều nên cần tiêu hóa nội bào liên tục.'},
-{t:'tf',p:20,q:'Về không bào, mỗi ý sau đúng hay sai?',o:['Không bào chỉ có ở tế bào thực vật.','Quả chanh có vị chua vì dịch không bào chứa citric acid.','Không bào thường bắt nguồn từ lưới nội chất và bộ máy Golgi.','Không bào co bóp ở trùng giày thực hiện chức năng tiêu hóa thức ăn.'],a:[false,true,true,false],e:'Không bào tiêu hóa thực hiện tiêu hóa thức ăn; không bào co bóp đưa nước thừa ra khỏi tế bào.'},
-{t:'order',p:20,q:'Sắp xếp các giai đoạn sau theo đúng thứ tự, từ khi tạo ra enzyme thủy phân đến khi lysosome phân giải xong:',o:['Golgi đóng gói enzyme thành lysosome','Ribosome tổng hợp enzyme thủy phân','Enzyme phân giải bào quan bị hư hỏng','Giữ lại chất tái sử dụng, đưa chất thải ra ngoài'],a:[1,0,2,3]},
-{t:'match',p:20,q:'Ghép mỗi tình huống với bào quan tương ứng:',l:['Tế bào tiêu hóa vi khuẩn mà nó vừa thực bào','Tế bào gan phân giải H₂O₂ sinh ra trong tế bào','Trùng giày sống trong nước ngọt đưa nước thừa ra khỏi tế bào','Cánh hoa chứa sắc tố thu hút côn trùng'],o:['Không bào co bóp','Lysosome','Không bào chứa sắc tố','Peroxisome'],a:[1,3,0,2]},
-{t:'short',q:'Ở tế bào não, một số enzyme phân giải chất béo bị mất chức năng, làm lipid tích tụ, gây tổn thương não và có thể dẫn đến tử vong. Bào quan nào bị rối loạn chức năng?',a:'Peroxisome',ra:'images/cau-08-dapan'},
-{t:'short',q:'Ở thực vật, loại peroxisome đặc biệt chứa enzyme phân tách acid béo thành acetyl-CoA có tên là gì?',a:'Glioxysome',e:'Acetyl-CoA được đưa đến ti thể để tham gia hô hấp tế bào.'},
-];
+const ENC='W3sidCI6Im1jcSIsInEiOiJMeXNvc29tZSBLSMOUTkcgdGjhu7FjIGhp4buHbiBjaOG7qWMgbsSDbmcgbsOgbyBzYXUgxJHDonk/IiwibyI6WyJQaMOibiBnaeG6o2kgY8OhYyBiw6BvIHF1YW4gxJHDoyBi4buLIGjGsCBo4buPbmciLCJI4buXIHRy4bujIHRpw6p1IGjDs2EgdGjhu6ljIMSDbiB0aGVvIGNvbiDEkcaw4budbmcgdGjhu7FjIGLDoG8iLCJQaMOibiBnaeG6o2kgaHlkcm9nZW4gcGVyb3hpZGUgKEjigoJP4oKCKSBzaW5oIHJhIHRyb25nIHThur8gYsOgbyIsIlBow6JuIGdp4bqjaSBjw6FjIHThur8gYsOgbyBj4bqnbiDEkcaw4bujYyB0aGF5IHRo4bq/Il0sImEiOjIsImUiOiJQaMOibiBnaeG6o2kgSOKCgk/igoIgbMOgIGNo4bupYyBuxINuZyBj4bunYSBwZXJveGlzb21lLiJ9LHsidCI6Im1jcSIsImltIjpbWyJpbWFnZXMvY2F1LTAzIiwi4bqibmggY8OhbmggaG9hIGPDsyBtw6B1IHPhuq9jIHLDtSBuw6l0IChob2EgdMOtbSBob+G6t2MgxJHhu48pIl1dLCJxIjoiTcOgdSBz4bqvYyBj4bunYSBjw6FuaCBob2EgdHJvbmcgaMOsbmggZ2nDunAgdGh1IGjDunQgY8O0biB0csO5bmcgxJHhur9uIHRo4bulIHBo4bqlbi4gU+G6r2MgdOG7kSB04bqhbyBuw6puIG3DoHUgc+G6r2MgxJHDsyDEkcaw4bujYyBjaOG7qWEgdHJvbmcgYsOgbyBxdWFuIG7DoG8/IiwibyI6WyJMeXNvc29tZSIsIktow7RuZyBiw6BvIiwiUGVyb3hpc29tZSIsIlRpIHRo4buDIl0sImEiOjF9LHsidCI6InNob3J0IiwicSI6IlRyb25nIGPDoWMgbG/huqFpIHThur8gYsOgbzogdOG6vyBiw6BvIGPGoSwgaOG7k25nIGPhuqd1LCBi4bqhY2ggY+G6p3UsIHThur8gYsOgbyB0aOG6p24ga2luaCwgbG/huqFpIHThur8gYsOgbyBuw6BvIGPDsyBuaGnhu4F1IGx5c29zb21lIG5o4bqldD8iLCJhIjoiQuG6oWNoIGPhuqd1IiwiZSI6IkLhuqFjaCBj4bqndSB0aOG7sWMgYsOgbyBuaGnhu4F1IG7Dqm4gY+G6p24gdGnDqnUgaMOzYSBu4buZaSBiw6BvIGxpw6puIHThu6VjLiJ9LHsidCI6InRmIiwicCI6MjAsInEiOiJW4buBIGtow7RuZyBiw6BvLCBt4buXaSDDvSBzYXUgxJHDum5nIGhheSBzYWk/IiwibyI6WyJLaMO0bmcgYsOgbyBjaOG7iSBjw7Mg4bufIHThur8gYsOgbyB0aOG7sWMgduG6rXQuIiwiUXXhuqMgY2hhbmggY8OzIHbhu4sgY2h1YSB2w6wgZOG7i2NoIGtow7RuZyBiw6BvIGNo4bupYSBjaXRyaWMgYWNpZC4iLCJLaMO0bmcgYsOgbyB0aMaw4budbmcgYuG6r3Qgbmd14buTbiB04burIGzGsOG7m2kgbuG7mWkgY2jhuqV0IHbDoCBi4buZIG3DoXkgR29sZ2kuIiwiS2jDtG5nIGLDoG8gY28gYsOzcCDhu58gdHLDuW5nIGdpw6B5IHRo4buxYyBoaeG7h24gY2jhu6ljIG7Eg25nIHRpw6p1IGjDs2EgdGjhu6ljIMSDbi4iXSwiYSI6W2ZhbHNlLHRydWUsdHJ1ZSxmYWxzZV0sImUiOiJLaMO0bmcgYsOgbyB0acOqdSBow7NhIHRo4buxYyBoaeG7h24gdGnDqnUgaMOzYSB0aOG7qWMgxINuOyBraMO0bmcgYsOgbyBjbyBiw7NwIMSRxrBhIG7GsOG7m2MgdGjhu6thIHJhIGto4buPaSB04bq/IGLDoG8uIn0seyJ0Ijoib3JkZXIiLCJwIjoyMCwicSI6IlPhuq9wIHjhur9wIGPDoWMgZ2lhaSDEkW/huqFuIHNhdSB0aGVvIMSRw7puZyB0aOG7qSB04buxLCB04burIGtoaSB04bqhbyByYSBlbnp5bWUgdGjhu6d5IHBow6JuIMSR4bq/biBraGkgbHlzb3NvbWUgcGjDom4gZ2nhuqNpIHhvbmc6IiwibyI6WyJHb2xnaSDEkcOzbmcgZ8OzaSBlbnp5bWUgdGjDoG5oIGx5c29zb21lIiwiUmlib3NvbWUgdOG7lW5nIGjhu6NwIGVuenltZSB0aOG7p3kgcGjDom4iLCJFbnp5bWUgcGjDom4gZ2nhuqNpIGLDoG8gcXVhbiBi4buLIGjGsCBo4buPbmciLCJHaeG7ryBs4bqhaSBjaOG6pXQgdMOhaSBz4butIGThu6VuZywgxJHGsGEgY2jhuqV0IHRo4bqjaSByYSBuZ2/DoGkiXSwiYSI6WzEsMCwyLDNdfSx7InQiOiJtYXRjaCIsInAiOjIwLCJxIjoiR2jDqXAgbeG7l2kgdMOsbmggaHXhu5FuZyB24bubaSBiw6BvIHF1YW4gdMawxqFuZyDhu6luZzoiLCJsIjpbIlThur8gYsOgbyB0acOqdSBow7NhIHZpIGtodeG6qW4gbcOgIG7DsyB24burYSB0aOG7sWMgYsOgbyIsIlThur8gYsOgbyBnYW4gcGjDom4gZ2nhuqNpIEjigoJP4oKCIHNpbmggcmEgdHJvbmcgdOG6vyBiw6BvIiwiVHLDuW5nIGdpw6B5IHPhu5FuZyB0cm9uZyBuxrDhu5tjIG5n4buNdCDEkcawYSBuxrDhu5tjIHRo4burYSByYSBraOG7j2kgdOG6vyBiw6BvIiwiQ8OhbmggaG9hIGNo4bupYSBz4bqvYyB04buRIHRodSBow7p0IGPDtG4gdHLDuW5nIl0sIm8iOlsiS2jDtG5nIGLDoG8gY28gYsOzcCIsIkx5c29zb21lIiwiS2jDtG5nIGLDoG8gY2jhu6lhIHPhuq9jIHThu5EiLCJQZXJveGlzb21lIl0sImEiOlsxLDMsMCwyXX0seyJ0Ijoic2hvcnQiLCJxIjoi4bueIHThur8gYsOgbyBuw6NvLCBt4buZdCBz4buRIGVuenltZSBwaMOibiBnaeG6o2kgY2jhuqV0IGLDqW8gYuG7iyBt4bqldCBjaOG7qWMgbsSDbmcsIGzDoG0gbGlwaWQgdMOtY2ggdOG7pSwgZ8OieSB04buVbiB0aMawxqFuZyBuw6NvIHbDoCBjw7MgdGjhu4MgZOG6q24gxJHhur9uIHThu60gdm9uZy4gQsOgbyBxdWFuIG7DoG8gYuG7iyBy4buRaSBsb+G6oW4gY2jhu6ljIG7Eg25nPyIsImEiOiJQZXJveGlzb21lIiwicmEiOiJpbWFnZXMvY2F1LTA4LWRhcGFuIn0seyJ0Ijoic2hvcnQiLCJxIjoi4bueIHRo4buxYyB24bqtdCwgbG/huqFpIHBlcm94aXNvbWUgxJHhurdjIGJp4buHdCBjaOG7qWEgZW56eW1lIHBow6JuIHTDoWNoIGFjaWQgYsOpbyB0aMOgbmggYWNldHlsLUNvQSBjw7MgdMOqbiBsw6AgZ8OsPyIsImEiOiJHbGlveHlzb21lIiwiZSI6IkFjZXR5bC1Db0EgxJHGsOG7o2MgxJHGsGEgxJHhur9uIHRpIHRo4buDIMSR4buDIHRoYW0gZ2lhIGjDtCBo4bqlcCB04bq/IGLDoG8uIn1d';
 const $=s=>document.querySelector(s),app=$('#app'),LOGO='images/logo-thpt-soc-son.png';
 let S={},ac;
-const Q=()=>BANK.map((q,i)=>({id:i,p:10,...q}));
+const UNLOCK_AT=new Date('2026-11-17T12:00:00+07:00').getTime(); /* GIỜ MỞ KHÓA (giờ Việt Nam) */
+const locked=()=>Date.now()<UNLOCK_AT;
+let _B;const bank=()=>locked()?[]:(_B=_B||JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(ENC),c=>c.charCodeAt(0)))));
+const Q=()=>bank().map((q,i)=>({id:i,p:10,...q}));
 /* Âm thanh: nếu có file trong thư mục audio/ thì dùng file, không có thì dùng âm thanh tự tạo (riêng nhạc nền: không có file thì không phát) */
 const AU={};['nhac-nen','chuyen-cau','dap-an','het-gio'].forEach(n=>{const a=new Audio('audio/'+n+'.mp3');a.preload='auto';a.oncanplaythrough=()=>a.ok=1;AU[n]=a});AU['nhac-nen'].loop=true;
 function tn(f,t,d,ty='sine',v=.05){const o=ac.createOscillator(),g=ac.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+.02)}
@@ -162,7 +175,7 @@ function nx(e,p){const x=['png','jpeg','webp'],i=+(e.dataset.i||0);e.dataset.i=i
 function home(){stopT();S.scr='home';app.className='';app.innerHTML=`<div class="hero"><img class="logo" src="${LOGO}" alt="THPT Sóc Sơn"><h1 class="gold">MINIGAME</h1><p class="sub">Sinh học 10 · Lysosome – Không bào – Peroxisome</p></div>
 <div class="rules"><h3 class="gold">THỂ LỆ</h3><ul><li>Bạn giơ tay trước được gọi lên chọn bộ câu hỏi 10 điểm hoặc 20 điểm. Mỗi câu có 20 giây.</li><li>Trả lời sai: không bị trừ điểm, không bị phạt.</li><li>Nếu không trả lời được, quyền trả lời sẽ dành cho bạn khác.</li><li>Trả lời đúng: nhận phần quà tương ứng với số điểm của câu hỏi (10 điểm hoặc 20 điểm).</li></ul></div>
 <div class="row" style="margin:30px 0"><button class="btn big" onclick="newGame()">▶ BẮT ĐẦU</button></div>`}
-function newGame(){S={all:Q(),pool:{}};S.all.forEach(q=>(S.pool[q.p]=S.pool[q.p]||[]).push(q.id));pick()}
+function newGame(){if(locked())return lockScr();S={all:Q(),pool:{}};S.all.forEach(q=>(S.pool[q.p]=S.pool[q.p]||[]).push(q.id));pick()}
 function pick(){stopT();S.scr='pick';const ks=Object.keys(S.pool);if(!ks.some(k=>S.pool[k].length))return end();app.className='pl enter';
 app.innerHTML=`<div class="top"><div class="lf"><img class="logo sm" src="${LOGO}" alt=""><button class="btn ghost sm" onclick="home()">← Trang đầu</button></div><div class="tag">MỜI BẠN CHỌN MỨC ĐIỂM</div><div><button class="btn ghost sm" onclick="fs()">⛶</button></div></div>
 <div class="stage pk"><div class="pkw"><div class="pkg">${ks.map((k,i)=>`<div class="pkc${S.pool[k].length?'':' z'}" style="--i:${i}" onclick="draw(${k})"><span class="pts">${S.pool[k].length}</span><b>${k}</b><em>ĐIỂM</em></div>`).join('')}</div></div></div>`}
@@ -192,6 +205,16 @@ function stopT(){clearInterval(S.iv);S.run=false;music(0);upd()}
 function upd(){const b=$('#tb'),g=$('#tg');if(!b||S.scr!='play')return;b.style.width=S.t/S.max*100+'%';b.classList.toggle('low',S.t<=5&&S.t>0);g.textContent=S.run?'⏸ Tạm dừng':(S.t<S.max&&S.t>0?'▶ Tiếp tục':'▶ Bắt đầu');const r=$('#rv'),n=$('#nx');if(r)r.disabled=S.rev||!S.started||S.run;if(n){n.disabled=!!S.started&&!S.rev;n.textContent=S.rev?'Chọn câu tiếp ›':'← Chọn lại'}}
 addEventListener('keydown',e=>{if(S.scr!='play')return;if(['Enter',' ','Escape'].includes(e.key)){e.preventDefault();document.activeElement&&document.activeElement.blur()}if(e.key=='Enter')S.rev?pick():rev();else if(e.key=='Escape')back();else if(e.key==' ')tog();else if(e.key=='f'||e.key=='F')fs()});
 addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('button');if(b)b.blur()});
-home();
+function lockScr(){S.scr='lock';app.className='lockpg';
+app.innerHTML=`<div class="lockw"><img class="logo" src="${LOGO}" alt="THPT Sóc Sơn"><div class="lockc" id="lc"><div class="lockico"><svg viewBox="0 0 64 64" fill="none"><defs><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6cf"/><stop offset=".55" stop-color="#f0bd45"/><stop offset="1" stop-color="#a06c08"/></linearGradient></defs><g class="sh"><path d="M20 28V20a12 12 0 0 1 24 0v8" stroke="url(#gg)" stroke-width="6" stroke-linecap="round"/></g><rect x="11" y="27" width="42" height="30" rx="7" fill="url(#gg)"/><circle cx="32" cy="40" r="4.2" fill="#6b4300"/><rect x="30" y="42" width="4" height="9" rx="2" fill="#6b4300"/></svg></div>
+<div class="lockt">MINIGAME SINH HỌC 10</div><h1 class="gold" id="lh">ĐANG TẠM KHÓA</h1>
+<p class="locks" id="ls">Minigame sẽ tự động mở vào lúc<br><b>12:00 · Thứ Ba, 17/11/2026</b></p>
+<div class="lockcd"><div><b id="cd">00</b><span>NGÀY</span></div><div><b id="ch">00</b><span>GIỜ</span></div><div><b id="cm">00</b><span>PHÚT</span></div><div><b id="cs">00</b><span>GIÂY</span></div></div>
+<p class="lockn" id="ln">Bạn hãy quay lại đúng giờ nhé! 🍀</p></div></div>`;
+const z=n=>String(n).padStart(2,'0'),iv=setInterval(tick,250);
+function tick(){const d=UNLOCK_AT-Date.now();if(d<=0){clearInterval(iv);const c=$('#lc');if(c){c.classList.add('go');$('#lh').textContent='ĐÃ MỞ KHÓA!';$('#ls').innerHTML='Chúc các bạn chơi thật vui!';$('#ln').textContent='';['cd','ch','cm','cs'].forEach(k=>$('#'+k).textContent='00')}setTimeout(home,1400);return}
+const t=Math.floor(d/1000);$('#cd').textContent=z(Math.floor(t/86400));$('#ch').textContent=z(Math.floor(t%86400/3600));$('#cm').textContent=z(Math.floor(t%3600/60));$('#cs').textContent=z(t%60)}
+tick()}
+locked()?lockScr():home();
 
 </script></body></html>
