@@ -124,7 +124,7 @@ body{background:radial-gradient(ellipse at 50% -10%,#2ecb6a,transparent 55%),rad
 @media(max-width:700px){.gimg{grid-template-columns:1fr 1fr}.gi,.gi:nth-child(4),.gi:nth-child(5){grid-column:auto}.mg{grid-template-columns:1fr 40px 1fr}}
 </style></head><body><div id="app"></div><div id="m" class="mo" hidden><div class="mb" id="mb"></div></div>
 <script>
-/* ============ NGÂN HÀNG CÂU HỎI (10 câu) — sửa/thêm theo đúng mẫu ============
+/* ============ NGÂN HÀNG CÂU HỎI (8 câu: 5 câu 10 điểm + 3 câu 20 điểm) — sửa/thêm theo đúng mẫu ============
  Chung: q = đề bài · p = điểm (10 hoặc 20: quyết định câu thuộc bộ nào, mặc định 10) · e = giải thích ngắn khi hiện đáp án
         im:[['images/cau-03','mô tả ảnh cần có']] = ảnh trong đề (đặt file images/cau-03.jpg; đuôi png/jpeg/webp cũng được)
         ra:'images/cau-08-dapan' = ảnh chỉ hiện cùng đáp án
@@ -143,9 +143,7 @@ const BANK=[
 {t:'short',q:'Trong các loại tế bào: tế bào cơ, hồng cầu, bạch cầu, tế bào thần kinh, loại tế bào nào có nhiều lysosome nhất?',a:'Bạch cầu',e:'Bạch cầu thực bào nhiều nên cần tiêu hóa nội bào liên tục.'},
 {t:'tf',p:20,q:'Về không bào, mỗi ý sau đúng hay sai?',o:['Không bào chỉ có ở tế bào thực vật.','Quả chanh có vị chua vì dịch không bào chứa citric acid.','Không bào thường bắt nguồn từ lưới nội chất và bộ máy Golgi.','Không bào co bóp ở trùng giày thực hiện chức năng tiêu hóa thức ăn.'],a:[false,true,true,false],e:'Không bào tiêu hóa thực hiện tiêu hóa thức ăn; không bào co bóp đưa nước thừa ra khỏi tế bào.'},
 {t:'order',p:20,q:'Sắp xếp các giai đoạn sau theo đúng thứ tự, từ khi tạo ra enzyme thủy phân đến khi lysosome phân giải xong:',o:['Golgi đóng gói enzyme thành lysosome','Ribosome tổng hợp enzyme thủy phân','Enzyme phân giải bào quan bị hư hỏng','Giữ lại chất tái sử dụng, đưa chất thải ra ngoài'],a:[1,0,2,3]},
-{t:'match',p:20,q:'Ghép mỗi tình huống với bào quan tương ứng:',l:['Tế bào tiêu hóa vi khuẩn mà nó vừa thực bào','Tế bào gan phân giải H₂O₂ sinh ra trong tế bào','Trùng giày sống trong nước ngọt đưa nước thừa ra khỏi tế bào','Cánh hoa chứa sắc tố thu hút côn trùng'],o:['Không bào co bóp','Lysosome','Không bào chứa sắc tố','Peroxisome'],a:[1,3,0,2]},
 {t:'short',q:'Ở tế bào não, một số enzyme phân giải chất béo bị mất chức năng, làm lipid tích tụ, gây tổn thương não và có thể dẫn đến tử vong. Bào quan nào bị rối loạn chức năng?',a:'Peroxisome',ra:'images/cau-08-dapan'},
-{t:'short',q:'Ở thực vật, loại peroxisome đặc biệt chứa enzyme phân tách acid béo thành acetyl-CoA có tên là gì?',a:'Glioxysome',e:'Acetyl-CoA được đưa đến ti thể để tham gia hô hấp tế bào.'},
 {t:'pics',p:20,q:'Những hình nào dưới đây thể hiện bào quan được bao bọc bởi màng đơn?',oi:['images/cau-10-a','images/cau-10-b','images/cau-10-c','images/cau-10-d','images/cau-10-e'],a:[1,2,4],e:'Lysosome (B), không bào (C) và peroxisome (E) có màng đơn. Ti thể (A) và lục lạp (D) có màng kép.'}
 ];
 const $=s=>document.querySelector(s),app=$('#app'),LOGO='images/logo-thpt-soc-son.png';
@@ -162,7 +160,7 @@ function music(on){const a=AU['nhac-nen'];if(!a.ok)return;on?a.play().catch(()=>
 function pic(p){return`<img src="${p}.jpg" onerror="nx(this,'${p}')">`}
 function nx(e,p){const x=['png','jpeg','webp'],i=+(e.dataset.i||0);e.dataset.i=i+1;if(i<3)e.src=p+'.'+x[i];else e.parentNode.classList.add('miss')}
 function home(){stopT();S.scr='home';app.className='';app.innerHTML=`<div class="hero"><img class="logo" src="${LOGO}" alt="THPT Sóc Sơn"><h1 class="gold">MINIGAME</h1><p class="sub">Sinh học 10 · Lysosome – Không bào – Peroxisome</p></div>
-<div class="rules"><h3 class="gold">THỂ LỆ</h3><ul><li>Học sinh giơ tay trước được gọi lên chọn bộ câu hỏi 10 điểm hoặc 20 điểm. Mỗi câu có 20 giây.</li><li>Trả lời sai: không bị trừ điểm, không bị phạt.</li><li>Trả lời đúng: nhận phần quà tương ứng với số điểm của câu hỏi (10 điểm hoặc 20 điểm).</li></ul></div>
+<div class="rules"><h3 class="gold">THỂ LỆ</h3><ul><li>Bạn giơ tay trước được gọi lên chọn bộ câu hỏi 10 điểm hoặc 20 điểm. Mỗi câu có 20 giây.</li><li>Trả lời sai: không bị trừ điểm, không bị phạt.</li><li>Nếu không trả lời được, quyền trả lời sẽ dành cho bạn khác.</li><li>Trả lời đúng: nhận phần quà tương ứng với số điểm của câu hỏi (10 điểm hoặc 20 điểm).</li></ul></div>
 <div class="row" style="margin:30px 0"><button class="btn big" onclick="newGame()">▶ BẮT ĐẦU</button></div>`}
 function newGame(){S={all:Q(),pool:{}};S.all.forEach(q=>(S.pool[q.p]=S.pool[q.p]||[]).push(q.id));pick()}
 function pick(){stopT();S.scr='pick';const ks=Object.keys(S.pool);if(!ks.some(k=>S.pool[k].length))return end();app.className='pl enter';
